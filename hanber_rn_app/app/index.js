@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
+
 
 export default function App() {
 
@@ -14,6 +15,40 @@ export default function App() {
       <Link href="/detail" style={{color:'blue', fontSize: 30}} asChild>  
         <Text>go to Detail</Text>
       </Link>
+
+      <Text onPress={() => router.navigate('/detail')}>
+        GO Detail - router
+      </Text>
+
+      {/* 路由传参 */}
+      {/* 1）link直接传参数 */}
+      <Link href="/details/123?limit=20" style={{color:'blue', fontSize: 30}} asChild>
+        <Text>go to Detail with id</Text>
+      </Link>
+
+      <Link 
+        href={{
+          pathname: '/details/[id]',
+          params: {id: 456,limit:'4561'}
+        }} 
+        style={{color:'blue', fontSize: 30}}  
+        asChild
+      >
+        <Text>go to Detail with id - 456</Text>
+      </Link>
+
+      {/* 2）router传参数 */}
+      <Text onPress={() => router.navigate('/details/789')}>
+        GO Detail with id - 789
+      </Text>
+
+      <Text onPress={() => router.navigate({
+        pathname: '/details/[id]',
+        params: {id: 999,limit:'9991'} 
+      })}>
+        GO Detail with id - 999
+      </Text>
+
     </View>
   );
 }
