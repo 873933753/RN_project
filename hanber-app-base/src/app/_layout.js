@@ -1,6 +1,26 @@
-import { Slot } from 'expo-router'
-import request from '@/utils/request'
+import { Stack } from 'expo-router'
+import screenOptions from '@/options/screenOptions'
+import useAppColors from '@/theme/useAppColors'
+import { useColorScheme } from 'react-native'
 
 export default function Layout() {
-  return <Slot />
+  const colors = useAppColors()
+  const scheme = useColorScheme()
+
+  return (
+    <Stack screenOptions={screenOptions(colors)}>
+      {/* TabBar */}
+      {/* headerShown可以隐藏当前页面的导航栏，双端表现一致 */}
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      {/* cards 其他页面 */}
+      <Stack.Screen
+        name="index"
+        options={{
+          title: '详情页',
+          contentStyle: { backgroundColor: colors.background },
+          statusBarStyle: scheme === 'dark' ? 'light' : 'dark',
+        }}
+      />
+    </Stack>
+  )
 }

@@ -5,6 +5,7 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000'
 /* 封装fetch */
 const request = async (url, { method = 'GET', params, body }) => {
   const requestUrl = urlcat(API_URL, url, params) // 主要get请求需要拼接参数，其他请求不需要
+  console.log('requestUrl-', requestUrl)
 
   // 请求头
   const headers = {
