@@ -1,43 +1,47 @@
-import { Link, Stack } from "expo-router";
-import { Image } from "expo-image";
-import { Touchable, TouchableOpacity } from "react-native";
+import { Link, Stack } from 'expo-router';
+import { Image } from 'expo-image';
+import { Touchable, TouchableOpacity } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
 /* 导航栏logo */
 function LogoTitle() {
   return (
-    <Image contentFit="contain" style={{ width: 30, height: 30 }} source={require('../assets/icon.png')} />
+    <Image
+      contentFit="contain"
+      style={{ width: 30, height: 30 }}
+      source={require('@/assets/icon.png')}
+    />
   );
 }
 
 /* 导航栏左侧组件 */
 function LogoLeft() {
   return (
-    <Link href={'/detail'} style={{marginLeft: 10}} asChild>
+    <Link href={'/detail'} style={{ marginLeft: 10 }} asChild>
       <TouchableOpacity>
         <SimpleLineIcons name={'bell'} size={20} color="#1f99b0" />
       </TouchableOpacity>
     </Link>
-  )
+  );
 }
 
 /* 导航栏右侧组件 */
 function LogoRight() {
   return (
     <>
-      <Link href={'/detail'} style={{marginRight: 10}} asChild>
+      <Link href={'/detail'} style={{ marginRight: 10 }} asChild>
         <TouchableOpacity>
           <SimpleLineIcons name={'magifier'} size={20} color="#1f99b0" />
         </TouchableOpacity>
       </Link>
 
-      <Link href={'/detail'} style={{marginRight: 10}} asChild>
+      <Link href={'/detail'} style={{ marginRight: 10 }} asChild>
         <TouchableOpacity>
           <SimpleLineIcons name={'options'} size={20} color="#1f99b0" />
         </TouchableOpacity>
       </Link>
     </>
-  )
+  );
 }
 
 export default function Layout() {
@@ -56,7 +60,7 @@ export default function Layout() {
         headerTitleStyle: {
           fontWeight: 'bold', // 设置标题栏文字样式
         },
-        headerBackButtonDisplayMode: 'minimal' // 设置返回按钮样式,只显示箭头，不显示文字，android默认就是这个样式，ios默认是显示文字的
+        headerBackButtonDisplayMode: 'minimal', // 设置返回按钮样式,只显示箭头，不显示文字，android默认就是这个样式，ios默认是显示文字的
       }}
     >
       {/* index的title设置logo */}
@@ -64,18 +68,18 @@ export default function Layout() {
         name="index"
         // options={{ title: '首页' }}
         options={{
-          headerTitle: props => <LogoTitle {...props} />,
+          headerTitle: (props) => <LogoTitle {...props} />,
           headerLeft: () => <LogoLeft />,
-          headerRight: () => <LogoRight />
+          headerRight: () => <LogoRight />,
         }}
-       />
+      />
       <Stack.Screen name="detail" options={{ title: '详情页' }} />
       <Stack.Screen
         name="details/[id]"
-        options={ ({route}) => ({
-          title: route.params?.id || 'xxx'
+        options={({ route }) => ({
+          title: route.params?.id || 'xxx',
         })}
-       />
+      />
     </Stack>
-  )
+  );
 }

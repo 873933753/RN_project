@@ -10,7 +10,7 @@ function LogoTitle() {
     <Image
       contentFit="contain"
       style={{ width: 30, height: 30 }}
-      source={require('../assets/icon.png')}
+      source={require('@/assets/icon.png')}
     />
   );
 }
