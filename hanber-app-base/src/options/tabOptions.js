@@ -44,7 +44,7 @@ export default function tabOptions(colors) {
         <HeaderButton name="options" colors={colors} href="/settings" style={styles.headerButton} />
       </>
     ),
-    tabBarActiveTintColor: colors.accent, // 设置tabBar激活状态的颜色
+    tabBarActiveTintColor: colors.primary, // 设置tabBar激活状态的颜色
     tabBarInactiveTintColor: colors.textSecondary, // 设置tabBar非激活状态的颜色
     tabBarStyle: { backgroundColor: colors.surface }, // 设置tabBar背景色
     /* android 取消水波纹效果*/
