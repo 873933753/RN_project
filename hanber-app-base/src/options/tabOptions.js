@@ -31,7 +31,7 @@ export default function tabOptions(colors) {
     headerTitleAlign: 'center', // 安卓标题栏居中
     // headerTitle: (props) => <LogoTitle {...props} />,
     headerLeft: () => (
-      <HeaderButton name="bell" colors={colors} href="/articles" style={styles.headerButton} />
+      <HeaderButton name="bell" colors={colors} href="/messages" style={styles.headerButton} />
     ),
     headerRight: () => (
       <>

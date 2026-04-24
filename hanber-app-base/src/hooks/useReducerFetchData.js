@@ -37,7 +37,7 @@ const reducer = (state, action) => {
     case SET_DATA:
       return {
         ...state,
-        data: action.payload,
+        data: typeof action.payload === 'function' ? action.payload(state.data) : action.payload,
       }
     case RELOAD_DATA:
       return {
@@ -62,7 +62,6 @@ export default function useFetchData(url, params, options = {}) {
   const [state, dispatch] = useReducer(reducer, immediate, createInitialState)
 
   const fetchData = async () => {
-    dispatch({ type: RELOAD_DATA })
     await new Promise((resolve) => setTimeout(resolve, 500)) // 模拟网络请求延迟
     try {
       const { data } = await get(url, params)
@@ -77,6 +76,7 @@ export default function useFetchData(url, params, options = {}) {
   }
 
   const onReload = () => {
+    dispatch({ type: RELOAD_DATA })
     fetchData()
   }
 
@@ -89,6 +89,7 @@ export default function useFetchData(url, params, options = {}) {
 
   useEffect(() => {
     if (immediate) {
+      dispatch({ type: RELOAD_DATA })
       fetchData()
     }
   }, [url, immediate]) // 依赖项改变时重新获取数据

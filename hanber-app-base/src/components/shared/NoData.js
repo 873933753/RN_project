@@ -5,14 +5,14 @@ import useAppColors from '@/theme/useAppColors'
 /**
  * 暂无数据
  */
-export default function NoData() {
+export default function NoData({ content }) {
   const colors = useAppColors()
   const styles = createStyles(colors)
 
   return (
     <View style={styles.notice}>
       <SimpleLineIcons name={'drawer'} size={160} color={colors.iconMuted} />
-      <Text style={styles.noticeMsg}>暂时还没有内容哦~</Text>
+      <Text style={styles.noticeMsg}>{content || '暂时还没有内容哦~'}</Text>
     </View>
   )
 }

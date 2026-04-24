@@ -21,6 +21,8 @@ export default function Layout() {
           statusBarStyle: scheme === 'dark' ? 'light' : 'dark',
         }}
       />
+      {/* 消息列表 */}
+      <Stack.Screen name="messages/index" options={{ title: '消息列表' }} />
     </Stack>
   )
 }
