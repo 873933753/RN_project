@@ -1,13 +1,13 @@
 import { useEffect, useReducer } from 'react'
-import { request, get } from '@/utils/request'
+import { get } from '@/utils/request'
 
 // 初始状态
-const initialState = {
+const createInitialState = (immediate) => ({
   data: {},
-  loading: true,
+  loading: immediate,
   error: false,
   refreshing: false, // 添加refreshing状态，表示是否正在刷新
-}
+})
 
 // 定义action类型
 const FETCH_SUCCESS = 'FETCH_SUCCESS'
@@ -56,13 +56,13 @@ const reducer = (state, action) => {
 }
 
 // 定义useReducerFetchData hook
-export default function useFetchData(url, params) {
-  const [state, dispatch] = useReducer(
-    reducer,
-    initialState,
-  )
+export default function useFetchData(url, params, options = {}) {
+  // immediate false - 不立即请求数据，组件挂载后不请求数据，需要手动调用fetchData函数请求数据，适合在某些交互后才请求数据的场景；true - 立即请求数据，组件挂载后立即请求数据，适合在组件加载时就需要数据的场景
+  const { immediate = true } = options
+  const [state, dispatch] = useReducer(reducer, immediate, createInitialState)
 
   const fetchData = async () => {
+    dispatch({ type: RELOAD_DATA })
     await new Promise((resolve) => setTimeout(resolve, 500)) // 模拟网络请求延迟
     try {
       const { data } = await get(url, params)
@@ -77,23 +77,28 @@ export default function useFetchData(url, params) {
   }
 
   const onReload = () => {
-    dispatch({ type: RELOAD_DATA })
     fetchData()
   }
 
   const onRefresh = async () => {
     dispatch({ type: SET_REFRESHING, payload: true })
     /* 下拉刷新更明显 */
-    await new Promise((resolve) =>
-      setTimeout(resolve, 1000),
-    ) // 模拟网络请求延迟
+    await new Promise((resolve) => setTimeout(resolve, 1000)) // 模拟网络请求延迟
     await fetchData()
   }
 
   useEffect(() => {
-    fetchData()
-  }, [url]) // 依赖项改变时重新获取数据
+    if (immediate) {
+      fetchData()
+    }
+  }, [url, immediate]) // 依赖项改变时重新获取数据
 
   // state - data, loading, error, refreshing
-  return { ...state, setData, onReload, onRefresh }
+  return {
+    ...state,
+    setData,
+    onReload,
+    onRefresh,
+    fetchData,
+  }
 }
