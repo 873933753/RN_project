@@ -4,25 +4,26 @@ import { View, Text, FlatList, TouchableWithoutFeedback, Image, RefreshControl }
 import useFetchData from '@/hooks/useReducerFetchData'
 import NoData from '@/components/shared/NoData'
 import useLoadMore from '@/hooks/useLoadMore'
+import { Link } from 'expo-router'
 
 const renderItem = ({ item }) => {
   const logo = require('@/assets/icon.png')
 
   return (
-    // <Link asChild href={{ pathname: '/message/[id]', params: { id: item.id } }}>
-    <TouchableWithoutFeedback>
-      <View style={styles.item}>
-        <Image source={logo} style={styles.image} />
+    <Link asChild href={{ pathname: '/messages/[id]', params: { id: item.id } }}>
+      <TouchableWithoutFeedback>
+        <View style={styles.item}>
+          <Image source={logo} style={styles.image} />
 
-        <View style={styles.titleWrapper}>
-          <Text style={styles.title} numberOfLines={2}>
-            {item.title}
-          </Text>
-          <Text style={styles.createdAt}>{item.createdAt}</Text>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title} numberOfLines={2}>
+              {item.title}
+            </Text>
+            <Text style={styles.createdAt}>{item.createdAt}</Text>
+          </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
-    // </Link>
+      </TouchableWithoutFeedback>
+    </Link>
   )
 }
 
@@ -72,7 +73,7 @@ export default function Messages() {
       onEndReached={onEndReached}
       onEndReachedThreshold={0.1} /* 触底距离，单位是屏幕高度的百分比 */
       /* 加载更多底部组件 */
-      ListFooterComponent={LoadMoreFooter}
+      LoadMoreFooterComponent={LoadMoreFooter}
     ></FlatList>
   )
 }

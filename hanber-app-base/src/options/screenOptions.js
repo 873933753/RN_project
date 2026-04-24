@@ -5,12 +5,12 @@ export default function screenOptions(colors) {
     animation: 'slide_from_right', // android左右滑动效果
 
     headerStyle: {
-      backgroundColor: colors.primary, // 设置标题栏背景色
+      backgroundColor: colors.onPrimary, // 设置标题栏背景色
     },
-    headerTintColor: colors.onPrimary, // 设置标题栏文字颜色
+    headerTintColor: colors.primary, // 设置标题栏文字颜色
     headerTitleStyle: {
       fontWeight: 'bold', // 设置标题栏文字样式
-      color: colors.onPrimary, // 设置标题栏文字颜色
+      color: colors.primary, // 设置标题栏文字颜色
       fontSize: 18,
     },
     headerBackButtonDisplayMode: 'minimal', // 设置返回按钮样式,只显示箭头

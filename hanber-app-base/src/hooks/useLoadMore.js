@@ -40,6 +40,7 @@ export default function useLoadMore(url, key, setData, options = {}) {
 
     try {
       // 请求接口
+      // await new Promise((resolve) => setTimeout(resolve, 8000)) // 模拟网络请求延迟
       const { data } = await get(url, {
         page: nextPage,
         ...(typeof limit === 'number' ? { limit } : {}),
