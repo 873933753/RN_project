@@ -28,6 +28,13 @@ export default function Layout() {
         name="messages/[id]"
         options={({ route }) => ({ title: `消息详情 - ${route.params.id}` })}
       />
+      {/* 设置页 */}
+      <Stack.Screen name="settings/index" options={{ title: '设置' }} />
+      {/* 设置详情 */}
+      <Stack.Screen
+        name="settings/[uri]"
+        options={({ route }) => ({ title: route.params.title || '设置详情' })}
+      />
     </Stack>
   )
 }
