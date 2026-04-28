@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar'
 import screenOptions from '@/options/screenOptions'
 import useAppColors from '@/theme/useAppColors'
 import { useColorScheme } from 'react-native'
+import ModalCloseButton from '@/components/shared/ModalCloseButton'
 
 export default function Layout() {
   const colors = useAppColors()
@@ -15,6 +16,8 @@ export default function Layout() {
         {/* TabBar */}
         {/* headerShown可以隐藏当前页面的导航栏，双端表现一致 */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+        {/* Cards */}
         {/* 消息列表 */}
         <Stack.Screen name="messages/index" options={{ title: '消息列表' }} />
         {/* 消息详情 */}
@@ -28,6 +31,18 @@ export default function Layout() {
         <Stack.Screen
           name="settings/[uri]"
           options={({ route }) => ({ title: route.params.title || '设置详情' })}
+        />
+
+        {/* Modal */}
+        {/* 教师详情 */}
+        <Stack.Screen
+          name="teachers/[id]"
+          options={{
+            presentation: 'modal',
+            title: '教师详情',
+            headerLeft: () => <ModalCloseButton />,
+            animation: 'slide_from_bottom', // 安卓 Modal 从底部弹出
+          }}
         />
       </Stack>
     </>

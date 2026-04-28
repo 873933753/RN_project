@@ -1,0 +1,163 @@
+import {
+  View,
+  Text,
+  ImageBackground,
+  StyleSheet,
+  TouchableOpacity,
+  Share,
+  Platform,
+  Image,
+} from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+// import { Image } from 'expo-image'
+
+// import useLikeToggle from '@/hooks/useLikeToggle'
+
+export default function IntroduceInfo(props) {
+  const { course } = props
+  // const { liked, likesCount, likeToggle } = useLikeToggle(props)
+  const { liked, likesCount, likeToggle } = props
+
+  /**
+   * 分享
+   * @returns {Promise<void>}
+   * android 分享链接，iOS 分享文本（链接在文本里），因为 iOS 分享组件不支持单独传 url 参数
+   */
+  const onShare = async () => {
+    const url = 'https://clwy.cn/courses/fullstack-node' // https://reactnative.dev/docs/share
+    // const url = `${process.env.EXPO_PUBLIC_API_URL}/courses/${course.id}`
+
+    const message = Platform.OS === 'ios' ? course.name : `${course.name}：\n${url}`
+
+    await Share.share({
+      message, // iOS、Android 都支持
+      url, // 只有 iOS 支持
+    })
+  }
+  return (
+    <View style={styles.container}>
+      <ImageBackground
+        source={{ uri: course.image }}
+        resizeMode="cover"
+        style={styles.bgImage}
+        blurRadius={20}
+      >
+        {/* 半透明背景 */}
+        <View style={styles.whiteBg}></View>
+
+        <Image source={{ uri: course.image }} style={styles.image} />
+        <Text style={styles.name} numberOfLines={2}>
+          {course.name}
+        </Text>
+        <View style={styles.others}>
+          <View style={styles.info}>
+            <View style={styles.countWrapper}>
+              <Text style={styles.count}>全{course.chaptersCount}回</Text>
+            </View>
+            <Text style={styles.createdAt}>{course.createdAt}发布</Text>
+          </View>
+          <View style={styles.buttons}>
+            <View style={styles.shareWrapper}>
+              <TouchableOpacity onPress={onShare}>
+                <MaterialCommunityIcons name={'share'} size={26} color={'#000'} />
+              </TouchableOpacity>
+              <Text style={styles.shareText}>分享</Text>
+            </View>
+            <View style={styles.likeWrapper}>
+              <TouchableOpacity onPress={likeToggle}>
+                <MaterialCommunityIcons
+                  name={liked ? 'heart' : 'heart-outline'}
+                  size={28}
+                  color={'#ff7f6f'}
+                />
+              </TouchableOpacity>
+              <Text style={styles.likeText}>{likesCount}</Text>
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 15,
+  },
+  bgImage: {
+    height: 303,
+    position: 'relative',
+  },
+  whiteBg: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: 303,
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+  },
+  image: {
+    height: 170,
+  },
+  name: {
+    marginTop: 22,
+    marginLeft: 15,
+    fontSize: 18,
+    fontWeight: '500',
+    height: 52,
+  },
+  others: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 15,
+    marginRight: 15,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  info: {
+    backgroundColor: 'transparent',
+  },
+  countWrapper: {
+    width: 60,
+    height: 18,
+    backgroundColor: '#1f99b0',
+    borderRadius: 5,
+  },
+  count: {
+    lineHeight: 18,
+    textAlign: 'center',
+    fontSize: 12,
+    fontWeight: '300',
+    color: '#fff',
+    zIndex: 1,
+  },
+  createdAt: {
+    marginTop: 10,
+    fontSize: 12,
+    fontWeight: '300',
+    color: '#777',
+  },
+  buttons: {
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+  },
+  shareWrapper: {
+    marginRight: 25,
+    backgroundColor: 'transparent',
+  },
+  shareText: {
+    marginTop: 3,
+    fontSize: 10,
+    textAlign: 'center',
+  },
+  likeWrapper: {
+    marginRight: 10,
+    backgroundColor: 'transparent',
+  },
+  likeText: {
+    marginTop: 2,
+    fontSize: 10,
+    color: '#1f99b0',
+    textAlign: 'center',
+  },
+})
