@@ -14,7 +14,7 @@ export default function TabsLayout() {
   return (
     <Tabs screenOptions={tabOptions(colors)}>
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
           title: '首页',
           tabBarIcon: ({ color }) => <TabBarIcon name="compass" color={color} />,

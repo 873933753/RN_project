@@ -20,16 +20,16 @@ const ProgressBar = (props) => {
 /* 
   超链接拦截方法
 */
-const onShouldStartLoadWithRequest = (request) => {
+const createShouldStartLoadWithRequest = (sourceUri) => (request) => {
   // props.source.uri 是当前 WebView 加载的 URL
   // request.url 是即将要加载的 URL
   // 在这里处理超链接
-  if (props.source.uri === request.url) {
+  if (sourceUri === request.url) {
     return true
   }
   // 否则，用webBrowser打开
   void WebBrowser.openBrowserAsync(request.url)
-  // return false
+  return false
 }
 
 /**
@@ -38,6 +38,7 @@ const onShouldStartLoadWithRequest = (request) => {
  */
 export default function ProgressWebView(props) {
   const [progress, setProgress] = useState(0)
+  const sourceUri = props.source?.uri
 
   return (
     <View style={styles.container}>
@@ -57,7 +58,7 @@ export default function ProgressWebView(props) {
         onLoadProgress={({ nativeEvent }) => {
           setProgress(nativeEvent.progress)
         }}
-        onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
+        onShouldStartLoadWithRequest={createShouldStartLoadWithRequest(sourceUri)}
         {...props}
       />
     </View>

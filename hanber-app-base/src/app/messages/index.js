@@ -73,7 +73,7 @@ export default function Messages() {
       onEndReached={onEndReached}
       onEndReachedThreshold={0.1} /* 触底距离，单位是屏幕高度的百分比 */
       /* 加载更多底部组件 */
-      LoadMoreFooterComponent={LoadMoreFooter}
+      ListFooterComponent={LoadMoreFooter}
     ></FlatList>
   )
 }
