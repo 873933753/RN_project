@@ -35,8 +35,10 @@ export default function Messages() {
     page: 1,
     limit,
   })
-  let { articles: listData } = data
-  const { onEndReached, LoadMoreFooter } = useLoadMore(url, key, setData, { limit })
+  const listData = Array.isArray(data?.articles) ? data.articles : []
+  const { onEndReached, onScrollBeginDrag, LoadMoreFooter } = useLoadMore(url, key, setData, {
+    limit,
+  })
 
   if (loading) {
     return <LoadingCmp />
@@ -70,10 +72,11 @@ export default function Messages() {
        */
       ItemSeparatorComponent={ItemSeparatorComponent}
       /* 触底加载更多 */
+      onScrollBeginDrag={onScrollBeginDrag}
       onEndReached={onEndReached}
       onEndReachedThreshold={0.1} /* 触底距离，单位是屏幕高度的百分比 */
       /* 加载更多底部组件 */
-      ListFooterComponent={LoadMoreFooter}
+      ListFooterComponent={<LoadMoreFooter itemCount={listData.length} />}
     ></FlatList>
   )
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native'
 
 import { get } from '@/utils/request'
@@ -16,6 +16,7 @@ export default function useLoadMore(url, key, setData, options = {}) {
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
   const [page, setPage] = useState(1)
+  const hasUserInteractedRef = useRef(false)
 
   const getTotal = (data) => {
     if (typeof data?.total === 'number') return data.total
@@ -31,6 +32,7 @@ export default function useLoadMore(url, key, setData, options = {}) {
    * - 自动判断是否有更多数据
    */
   const onEndReached = async () => {
+    if (!hasUserInteractedRef.current) return
     if (loading) return // 如果在加载中，直接返回
     if (!hasMore) return // 没有更多了，直接返回
 
@@ -83,6 +85,11 @@ export default function useLoadMore(url, key, setData, options = {}) {
   const resetLoadMore = () => {
     setHasMore(true)
     setPage(1)
+    hasUserInteractedRef.current = false
+  }
+
+  const onScrollBeginDrag = () => {
+    hasUserInteractedRef.current = true
   }
 
   /**
@@ -92,7 +99,11 @@ export default function useLoadMore(url, key, setData, options = {}) {
    * - 无更多数据：显示没有更多了
    * - 可加载：显示上拉加载更多
    */
-  const LoadMoreFooter = () => {
+  const LoadMoreFooter = ({ itemCount = 0 }) => {
+    if (!loading && itemCount === 0) {
+      return null
+    }
+
     let message
     if (loading) {
       message = '加载中...'
@@ -110,7 +121,7 @@ export default function useLoadMore(url, key, setData, options = {}) {
     )
   }
 
-  return { onEndReached, resetLoadMore, LoadMoreFooter }
+  return { onEndReached, onScrollBeginDrag, resetLoadMore, LoadMoreFooter }
 }
 
 const styles = StyleSheet.create({

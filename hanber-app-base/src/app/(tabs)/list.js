@@ -3,7 +3,7 @@ import ScrollableTabView, { ScrollableTabBar } from '@/components/shared/Scrolla
 import LoadingCmp from '@/components/shared/LoadingCmp'
 import NetworkErrCmp from '@/components/shared/NetworkErrCmp'
 import useFetchData from '@/hooks/useReducerFetchData'
-import CourseList from '@/components/(tabs)/list/courseList'
+import VideoList from '@/components/(tabs)/list/videoList'
 
 export default function List() {
   const url = '/categories'
@@ -22,9 +22,9 @@ export default function List() {
   }
 
   const pages = categories.map((item) => (
-    <CourseList key={item.id} tabLabel={item.name}>
+    <VideoList key={item.id} tabLabel={item.name} url={`/categories/${item.id}`}>
       {item.name}
-    </CourseList>
+    </VideoList>
   ))
 
   return (
